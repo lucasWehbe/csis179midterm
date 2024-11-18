@@ -1,70 +1,40 @@
-# Getting Started with Create React App
+# Geolocation-Based Map with Geofencing and SOS Feature
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a geolocation-based web application that uses **Mapbox** and **React** to track a user's location, display geofences, and provide an SOS feature for emergencies. It integrates IP-based and GPS-based location tracking, geofence monitoring, and real-time updates.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Map Integration**: Displays a map using Mapbox.
+- **Geofence Management**: Fetches and displays geofences from a backend service.
+- **Real-Time Location Updates**:
+  - Tracks user location via IP (initially) and GPS (continuously).
+  - Updates the map with the user's current position.
+- **SOS Feature**: Allows users to send their GPS location to emergency contacts.
+- **Geofence Alerts**: Notifies users when entering or exiting geofences.
+- **Customizable Map**:
+  - Dynamic markers for user location and geofences.
+  - Zoom and pan controls.
 
-### `npm start`
+## Technologies Used
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Frontend**:
+  - React.js
+  - Mapbox GL JS
+  - Bootstrap (for modals and buttons)
+  - React Toastify (for notifications)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Backend Services**:
+  - Geofence Service: Fetches geofences.
+  - SOS Service: Sends SOS messages with location data.
 
-### `npm test`
+- **APIs**:
+  - **Mapbox**: For map visualization.
+  - **IP API**: For retrieving IP-based location.
+  - **Browser Geolocation API**: For real-time GPS tracking.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+### Prerequisites
+- Node.js and npm installed.
+- Mapbox API key.
+- Backend services 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
