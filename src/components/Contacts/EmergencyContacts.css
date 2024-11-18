@@ -1,0 +1,31 @@
+/* EmergencyContacts.css */
+
+/* Interactive Button Styles */
+.custom-button {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.custom-button:hover {
+    transform: scale(1.05);
+}
+
+.update-button {
+    background-color: #17a2b8;
+    color: #fff;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.update-button:hover {
+    background-color: #138496;
+    transform: scale(1.05);
+}
+
+.contact-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}

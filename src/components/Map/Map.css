@@ -1,0 +1,118 @@
+/* Map Container */
+#mapContainer {
+  width: 100%;
+  max-width: 1000px; /* Limits the width for larger screens */
+  height: 500px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); /* Soft shadow for depth */
+  overflow: hidden;
+  margin: auto; /* Centers the map horizontally */
+}
+
+/* Page Styling */
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f9; /* Subtle gray background for contrast */
+}
+
+.map-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  width: 100%; /* Ensures the wrapper takes full width */
+  background-color: #f4f6f9;
+}
+
+/* Header Styling */
+.header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Dropdown Button */
+.dropdown-button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 15px;
+  transition: background-color 0.2s;
+}
+
+.dropdown-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 150px;
+  overflow: hidden;
+}
+
+.dropdown-menu button {
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.dropdown-menu button:hover {
+  background-color: #f0f0f0;
+  color: #007bff;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .dropdown-menu {
+    right: 10px;
+    top: 50px;
+  }
+
+  .dropdown-button {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  #mapContainer {
+    height: 400px; /* Smaller height for smaller screens */
+  }
+}
+
+.sos-container {
+  display: flex;
+  justify-content: center; /* Centers the button horizontally */
+  width: 100%; /* Full width to align with map */
+  margin-top: 20px; /* Spacing between the map and the button */
+}
+
+.sos-button {
+  width: 200px; /* Button width */
+  height: 60px; /* Button height */
+  font-size: 1.5rem; /* Button text size */
+  text-align: center;
+}

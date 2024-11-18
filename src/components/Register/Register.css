@@ -1,0 +1,89 @@
+.register-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.register-container h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.register-container p {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.register-container input {
+    width: 100%;
+    padding: 10px 12px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.register-container input:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+.register-container .btn-register {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #2ecc71;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+}
+
+.register-container .btn-register:hover {
+    background-color: #27ae60;
+}
+
+.register-container .btn-login {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #3498db;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+}
+
+.register-container .btn-login:hover {
+    background-color: #2980b9;
+}
+
+.register-container .input-icon {
+    position: absolute;
+    left: 15px;
+    font-size: 18px;
+    color: #888;
+}
+
+.register-container .input-group {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.register-container .input-group input {
+    padding-left: 40px;
+}
