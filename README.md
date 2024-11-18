@@ -1,40 +1,77 @@
-# Geolocation-Based Map with Geofencing and SOS Feature
+# Geofencing Web App
 
-This project is a geolocation-based web application that uses **Mapbox** and **React** to track a user's location, display geofences, and provide an SOS feature for emergencies. It integrates IP-based and GPS-based location tracking, geofence monitoring, and real-time updates.
+## Overview
+This project is a **Geofencing Web Application** built using **Node.js** and **React.js**. The app tracks the user's location in real-time using the **GPS Watch Position API**. When the user enters or exits predefined geofences, an alert is triggered. Additionally, the app allows the user to send an **SOS alert** to their predefined emergency contacts, delivering their current location via WhatsApp, integrated with a **Google Maps link**.
+
+---
 
 ## Features
+1. **Real-Time Geolocation Tracking**:
+   - Tracks the user's location in real-time using the `watchPosition` API.
+   - Sends alerts when the user enters or exits predefined geofences.
 
-- **Map Integration**: Displays a map using Mapbox.
-- **Geofence Management**: Fetches and displays geofences from a backend service.
-- **Real-Time Location Updates**:
-  - Tracks user location via IP (initially) and GPS (continuously).
-  - Updates the map with the user's current position.
-- **SOS Feature**: Allows users to send their GPS location to emergency contacts.
-- **Geofence Alerts**: Notifies users when entering or exiting geofences.
-- **Customizable Map**:
-  - Dynamic markers for user location and geofences.
-  - Zoom and pan controls.
+2. **SOS Alert**:
+   - Allows users to send an SOS alert to emergency contacts.
+   - Sends a WhatsApp message via the WhatsApp API, including the user's current location and a Google Maps link.
+
+3. **User Authentication**:
+   - Secure login and registration system.
+   - Profile management for updating user information.
+
+4. **Emergency Contacts Management**:
+   - Add, edit, and delete emergency contacts.
+
+5. **Interactive Map**:
+   - Powered by **Mapbox API** for displaying geofences and real-time location tracking.
+   - Includes interactive buttons for geofence management and location updates.
+
+6. **Responsive Frontend**:
+   - Built using **React.js**, **Bootstrap**, and custom CSS for a professional, user-friendly interface.
+
+7. **Scalable Backend**:
+   - Developed with **Node.js** and **Sequelize** for managing the database.
+   - Supports user data, geofence definitions, and emergency contact management.
+
+---
 
 ## Technologies Used
 
-- **Frontend**:
-  - React.js
-  - Mapbox GL JS
-  - Bootstrap (for modals and buttons)
-  - React Toastify (for notifications)
+### Frontend
+- **React.js**
+- **Bootstrap** for responsive UI
+- **CSS** for custom styling
+- **Mapbox API** for map functionalities
 
-- **Backend Services**:
-  - Geofence Service: Fetches geofences.
-  - SOS Service: Sends SOS messages with location data.
+### Backend
+- **Node.js** for server-side logic
+- **Sequelize** ORM for database interaction
+- **PostgreSQL** as the database
 
-- **APIs**:
-  - **Mapbox**: For map visualization.
-  - **IP API**: For retrieving IP-based location.
-  - **Browser Geolocation API**: For real-time GPS tracking.
+### APIs
+- **GPS Watch Position API** for real-time geolocation tracking
+- **WhatsApp API** for sending SOS alerts
+---
 
+## Setup Instructions
 
 ### Prerequisites
-- Node.js and npm installed.
-- Mapbox API key.
-- Backend services 
+- **Node.js** and **npm** installed
+- **PostgreSQL** database setup
+- API keys for **Mapbox** and **WhatsApp API**
 
+## Usage
+**User Registration:**
+Users can sign up and log in to access the app.
+
+**Home Page:**
+Displays a real-time map with geofences.
+Tracks the user’s location and triggers alerts upon geofence entry/exit.
+
+**SOS Alert:**
+Click the SOS button to send an emergency alert with location details to all predefined contacts via WhatsApp.
+
+**Manage Profile:**
+Users can update their personal details and preferences.
+
+**Emergency Contacts:**
+Add, edit, or delete emergency contacts.
