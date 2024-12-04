@@ -7,9 +7,9 @@ const {
 } = require('../Services/GeofencesService');
 
 const createGeofenceController = async (req, res) => {
-    const { user_id, geofence_name, geofence_latitude, geofence_longitude, radius } = req.body;
+    const { user_id, name, latitude, longitude, radius } = req.body;
     try {
-        const geofence = await createGeofence(user_id, geofence_name, geofence_latitude, geofence_longitude, radius);
+        const geofence = await createGeofence(user_id, name, latitude, longitude, radius);
         res.status(201).json({ message: 'Geofence created', geofence });
     } catch (error) {
         res.status(500).json({ error: error?.message });

@@ -1,0 +1,311 @@
+/* Page Container */
+.admin-page-container {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  padding: 2rem 0;
+}
+
+/* Header Section */
+.admin-header {
+  background-color: #f7f8f8;
+  padding: 1.5rem 0;
+  margin-bottom: 2rem;
+}
+
+.admin-header-text {
+  color: rgb(10, 8, 8);
+  font-size: 2rem;
+  font-weight: 300;
+  text-align: center;
+  margin: 0;
+}
+
+/* Card Styles */
+.admin-card {
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.admin-card-header {
+  background: white;
+  border-bottom: 1px solid #e9ecef;
+  padding: 1.25rem;
+  border-radius: 10px 10px 0 0;
+}
+
+.admin-card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  color: #2d3748;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Table Container */
+.table-responsive {
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+}
+
+/* Table Styles */
+.admin-table {
+  margin-bottom: 0;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 1rem;
+  vertical-align: middle;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Geofence Table Columns */
+.geofence-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.geofence-table th:nth-child(1),
+.geofence-table td:nth-child(1) {
+  width: 25%;
+}
+
+.geofence-table th:nth-child(2),
+.geofence-table td:nth-child(2),
+.geofence-table th:nth-child(3),
+.geofence-table td:nth-child(3) {
+  width: 20%;
+}
+
+.geofence-table th:nth-child(4),
+.geofence-table td:nth-child(4) {
+  width: 15%;
+}
+
+.geofence-table th:nth-child(5),
+.geofence-table td:nth-child(5) {
+  width: 20%;
+}
+
+/* User Table Columns */
+.user-table {
+  width: 100%;
+  table-layout: auto;
+}
+
+.user-table th:nth-child(1),
+.user-table td:nth-child(1) {
+  width: 20%;
+}
+
+.user-table th:nth-child(2),
+.user-table td:nth-child(2) {
+  width: 30%;
+}
+
+.user-table th:nth-child(3),
+.user-table td:nth-child(3) {
+  width: 15%;
+}
+
+.user-table th:nth-child(4),
+.user-table td:nth-child(4) {
+  width: 15%;
+}
+
+.user-table th:nth-child(5),
+.user-table td:nth-child(5) {
+  width: 20%;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.admin-btn {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.875rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  min-width: 100px;
+  white-space: nowrap;
+}
+
+/* Role Badge */
+.role-badge {
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  display: inline-block;
+}
+
+.role-badge-admin {
+  background-color: #4299e1;
+  color: white;
+}
+
+.role-badge-user {
+  background-color: #48bb78;
+  color: white;
+}
+
+/* Add Button Container */
+.add-button-container {
+  padding: 1rem;
+  border-top: 1px solid #e9ecef;
+}
+
+/* Debug Panel */
+.debug-log {
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.debug-log-entry {
+  font-family: monospace;
+  font-size: 12px;
+  padding: 2px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.debug-panel {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  margin: 10px;
+  font-size: 12px;
+}
+
+/* Map Section */
+.admin-map {
+  height: 400px;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 15px 0;
+}
+
+/* Scoped Marker Styles for Admin Panel */
+.admin-panel .custom-marker {
+  width: 30px;
+  height: 30px;
+  position: relative;
+}
+
+.admin-panel .marker-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.admin-panel .marker-pin {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #3B82F6;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.admin-panel .marker-label {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.admin-panel .marker-popup {
+  padding: 5px;
+  font-size: 12px;
+}
+
+/* Tracking Styles */
+.tracking-summary {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.tracking-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+/* Tracking Button Animation */
+.tracking-active {
+  position: relative;
+  animation: pulse 2s infinite;
+}
+
+.location-info {
+  border-left: 3px solid #10B981;
+  font-size: 0.875rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .admin-map {
+    height: 300px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-btn {
+    margin: 0.25rem 0;
+  }
+}
+
+/* Button Pulse Animation */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.admin-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

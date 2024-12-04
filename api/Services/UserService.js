@@ -46,7 +46,7 @@ const getUserById = async(id) => {
     }
 };
 
-const updateUser = async (id, username, password, email, phone) => {
+const updateUser = async (id, username, password, email, phone, role) => {
     try{
         let hashedPass;
         if (password) {
@@ -61,6 +61,7 @@ const updateUser = async (id, username, password, email, phone) => {
             user_pass: hashedPass || user.user_pass,
             user_email: email,
             user_phone: phone,
+            user_role: role
         }, {
             where: { user_id : id}
         });

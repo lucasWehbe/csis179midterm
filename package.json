@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@mapbox/mapbox-gl-geocoder": "^5.0.3",
     "@popperjs/core": "^2.11.8",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -16,6 +17,7 @@
     "express-validator": "^7.2.0",
     "firebase": "^11.0.1",
     "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
     "mapbox-gl": "^3.8.0",
     "nodemon": "^3.1.7",
     "pg": "^8.13.1",
@@ -28,6 +30,9 @@
     "react-scripts": "5.0.1",
     "react-toastify": "^10.0.6",
     "sequelize": "^6.37.5",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
+    "uuid": "^11.0.3",
     "web-vitals": "^2.1.4",
     "whatsapp-web.js": "^1.26.0",
     "ws": "^8.18.0"

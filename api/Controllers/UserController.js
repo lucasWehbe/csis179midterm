@@ -63,7 +63,7 @@ const getUserByIdController = async(req,res) => {
 
 const updateUserController = async(req,res) =>{
     const user_id = req.params.id;
-    const {user_username, user_pass, user_email, user_phone} = req.body;
+    const {user_username, user_pass, user_email, user_phone, user_role} = req.body;
 
     if(!user_id)
         return res.status(400).json({message: 'Missing user id'});
@@ -74,7 +74,9 @@ const updateUserController = async(req,res) =>{
             user_username,
             user_pass,
             user_email,
-            user_phone);
+            user_phone,
+            user_role
+        );
         
         if(!updatedUser)
             return res.status(500).json({ message: 'Failed to update user'});

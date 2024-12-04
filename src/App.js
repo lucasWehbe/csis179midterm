@@ -2,26 +2,43 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useEffect } from 'react';
 import { Link, Route, Routes, useNavigate } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
+import { jwtDecode } from 'jwt-decode';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import Map from './components/Map/Map';
 import Profile from './components/Profile/Profile';
 import EmergencyContacts from './components/Contacts/EmergencyContacts';
+import AdminPanel from './components/AdminPanel/AdminPanel'; 
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userRole, setUserRole] = useState(null); // State to track user role
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [isNavCollapsed, setIsNavCollapsed] = useState(true); 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const authStatus = localStorage.getItem("isAuthenticated") === "true";
-    setIsAuthenticated(authStatus);
+    const token = localStorage.getItem('token'); // Fetch the token from localStorage
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token); // Decode the token to extract user info
+        setIsAuthenticated(true);
+        setUserRole(decodedToken.role); // Set the user's role from the token
+      } catch (error) {
+        console.error("Invalid token", error);
+        setIsAuthenticated(false);
+        setUserRole(null);
+      }
+    }
   }, []);
 
   const handleLogin = () => {
     setIsAuthenticated(true);
-    localStorage.setItem("isAuthenticated", "true");
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      setUserRole(decodedToken.role); // Update the role after login
+    }
   };
 
   const openLogoutModal = () => {
@@ -34,6 +51,7 @@ function App() {
 
   const confirmLogout = () => {
     setIsAuthenticated(false);
+    setUserRole(null); // Clear role on logout
     localStorage.clear();
     setShowLogoutModal(false);
     navigate("/");
@@ -70,6 +88,11 @@ function App() {
               <li className="nav-item">
                 <Link className="nav-link" to="/emergency-contacts">Emergency Contacts</Link>
               </li>
+              {userRole === 'admin' && ( // Conditional rendering for admin
+                <li className="nav-item">
+                  <Link className="nav-link" to="/admin-panel">Admin Panel</Link>
+                </li>
+              )}
             </ul>
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
@@ -86,6 +109,7 @@ function App() {
         <Route path="/map" element={<Map />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/emergency-contacts" element={<EmergencyContacts />} />
+        <Route path="/admin-panel" element={<AdminPanel />} />
       </Routes>
 
       <Modal show={showLogoutModal} onHide={closeLogoutModal}>

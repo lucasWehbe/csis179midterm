@@ -3,6 +3,7 @@ import { RiAddCircleFill, RiEdit2Fill } from 'react-icons/ri';
 import EmergencyContactsService from '../../Services/EmergencyContactsService';
 import { Modal, Button, Card, Alert, Form, Container, Row, Col } from 'react-bootstrap';
 import './EmergencyContacts.css';
+import { jwtDecode } from 'jwt-decode';
 
 const EmergencyContacts = () => {
     const [contacts, setContacts] = useState([]);
@@ -20,7 +21,16 @@ const EmergencyContacts = () => {
     const [updatePhone, setUpdatePhone] = useState('');
     const [updateRelationship, setUpdateRelationship] = useState('');
 
-    const userId = JSON.parse(localStorage.getItem('user')).user_id;
+    const token = localStorage.getItem('token');
+    let userId = null;
+    if (token) {
+        try {
+            const decodedToken = jwtDecode(token);
+            userId = decodedToken.id; // Make sure `id` matches the property name in your JWT payload
+        } catch (error) {
+            console.error("Error decoding token:", error);
+        }
+    }
 
     const fetchContacts = useCallback(async () => {
         try {

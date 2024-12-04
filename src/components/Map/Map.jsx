@@ -7,7 +7,7 @@ import SosService from '../../Services/SOSService';
 import { Modal, Button } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import axios from 'axios';
+import { io } from 'socket.io-client';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibHVjYXN3ZWhiZSIsImEiOiJjbTNnMDhkaGEwMTN1MnFyN2ltMGc1ejRiIn0.cOzwOqFY17zlxz1Bgf4BXQ';
 
@@ -28,46 +28,48 @@ const Map = () => {
     const [lastGpsUpdate, setLastGpsUpdate] = useState(0);
 
 
-    // Initialize map
-    const initializeMap = useCallback((location) => {
-        if (!mapRef.current || mapInstanceRef.current) return;
+    const [socket, setSocket] = useState(null);
+    const [isBeingTracked, setIsBeingTracked] = useState(false);
+    const [connectionStatus, setConnectionStatus] = useState('Disconnected');
 
+    // Initialize map
+    const initializeMap = useCallback(() => {
+        if (!mapRef.current || mapInstanceRef.current) return;
+    
+        // Initialize the map centered on Lebanon (approximately Beirut coordinates)
         const map = new mapboxgl.Map({
             container: mapRef.current,
             style: 'mapbox://styles/mapbox/streets-v11',
-            center: [location.lng, location.lat],
-            zoom: 14
+            center: [35.5018, 33.8938], // Beirut coordinates
+            zoom: 8 // Zoom level to show most of Lebanon
         });
-
+    
+        // Add navigation controls (bottom-right)
+        map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
+    
         map.on('load', async () => {
-            // Add user location marker (blue)
-            const userMarker = new mapboxgl.Marker({
-                color: '#3B82F6', // Blue color
-                scale: 0.8,
-                element: createCustomMarker('Current Location (IP-based)', '#3B82F6')
-            })
-            .setLngLat([location.lng, location.lat])
-            .addTo(map);
-
-            userMarkerRef.current = userMarker;
-
+            console.log('Map loaded');
+    
+            // Fetch and display geofences
             try {
                 const response = await GeofenceService.getAll();
                 const geofences = response.data.geofences;
                 geofencesRef.current = geofences;
-            
+    
                 geofences.forEach((geofence) => {
                     const geofenceCenter = [
                         parseFloat(geofence.geofence_longitude),
                         parseFloat(geofence.geofence_latitude)
                     ];
                     const radius = geofence.geofence_radius || 100;
-            
+    
+                    // Add geofence as a GeoJSON source
                     map.addSource(`geofence-${geofence.geofence_id}`, {
                         type: 'geojson',
                         data: createGeoJSONCircle(geofenceCenter, radius)
                     });
-            
+    
+                    // Add geofence fill layer
                     map.addLayer({
                         id: `geofence-${geofence.geofence_id}-fill`,
                         type: 'fill',
@@ -77,7 +79,8 @@ const Map = () => {
                             'fill-opacity': 0.1
                         }
                     });
-            
+    
+                    // Add geofence border layer
                     map.addLayer({
                         id: `geofence-${geofence.geofence_id}-border`,
                         type: 'line',
@@ -88,7 +91,7 @@ const Map = () => {
                             'line-dasharray': [2, 2]
                         }
                     });
-
+    
                     // Add geofence label
                     new mapboxgl.Marker({
                         element: createGeofenceLabel(geofence.geofence_name || 'Geofence')
@@ -101,13 +104,68 @@ const Map = () => {
                 toast.error('Failed to load geofences');
             }
         });
-
-        // Add navigation controls
-        map.addControl(new mapboxgl.NavigationControl(), 'top-right');
-
+    
+        // Listen for map clicks
+        map.on('click', (event) => {
+            const coords = event.lngLat;
+            console.log('Coordinates clicked:', coords);
+    
+            // Add a marker at the clicked location
+            const marker = new mapboxgl.Marker({
+                color: '#FF5733'
+            })
+            .setLngLat([coords.lng, coords.lat])
+            .addTo(map);
+    
+            // Remove marker after 5 seconds
+            setTimeout(() => marker.remove(), 5000);
+    
+            // Display coordinates in a toast
+            toast.info(`Coordinates: ${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}`);
+        });
+    
         mapInstanceRef.current = map;
         return map;
     }, []);
+
+    
+    useEffect(() => {
+        const newSocket = io('http://localhost:4000');
+    
+        newSocket.on('connect', () => {
+            console.log('User connected to socket');
+            setConnectionStatus('connected');
+            const userId = JSON.parse(localStorage.getItem('user'))?.user_id;
+            if (userId) {
+                newSocket.emit('register', { userId, role: 'user' }); // Correctly register the user
+            } else {
+                console.warn('No userId found in localStorage');
+            }
+        });
+    
+        newSocket.on('disconnect', () => {
+            console.log('User disconnected from socket');
+            setConnectionStatus('Disconnected');
+            setIsBeingTracked(false);
+        });
+    
+        newSocket.on('tracking-status', (data) => {
+            console.log('Tracking status:', data);
+            setIsBeingTracked(data.isTracking);
+            setConnectionStatus(data.isTracking ? 'Being Tracked' : 'Connected');
+        });
+    
+        setSocket(newSocket);
+    
+        return () => {
+            newSocket.disconnect();
+        };
+    }, [userId]);
+
+    useEffect(() => {
+        initializeMap();
+    }, [initializeMap]);
+    
 
     // Create a custom marker element with label
     const createCustomMarker = (label, color) => {
@@ -235,7 +293,7 @@ const Map = () => {
     // Update GPS location
     const updateGPSLocation = useCallback((location) => {
         const now = Date.now();
-        const updateInterval = 5000; // 5 seconds
+        const updateInterval = 1000; // 1 seconds
     
         if (now - lastGpsUpdate < updateInterval) {
             return; // Skip update if interval hasn't passed
@@ -265,7 +323,20 @@ const Map = () => {
         checkGeofenceProximity(location);
     
         setLocationSource('GPS Location Updated');
-    }, [checkGeofenceProximity, lastGpsUpdate]);
+
+        if (isBeingTracked && socket?.connected) {
+            socket.emit('location-update', {
+                userId: userId,
+                location: {
+                    lat: location.lat,
+                    lng: location.lng,
+                    accuracy: location.accuracy
+                }
+            });
+        }
+
+
+    }, [checkGeofenceProximity, lastGpsUpdate, isBeingTracked, socket, userId]);
     
 
     const handleSos = async () => {
@@ -298,31 +369,6 @@ const Map = () => {
         }
     };
     
-    
-
-    // Get initial IP-based location
-    useEffect(() => {
-        const getIPLocation = async () => {
-            try {
-                setLocationSource('Getting IP-based location...');
-                const response = await axios.get('https://ipapi.co/json/');
-                const location = {
-                    lat: response.data.latitude,
-                    lng: response.data.longitude,
-                    accuracy: 5000 // Approximate accuracy for IP-based location
-                };
-                setUserLocation(location);
-                initializeMap(location);
-                setLocationSource('IP-based location loaded');
-            } catch (error) {
-                console.error('Error getting IP location:', error);
-                setLocationSource('Error getting location');
-            }
-        };
-
-        
-        getIPLocation();
-    }, [initializeMap]);
 
     // Get GPS location
     useEffect(() => {
@@ -335,45 +381,60 @@ const Map = () => {
                         accuracy: position.coords.accuracy
                     };
     
-                    // Filter out poor accuracy
-                    const accuracyThreshold = 50; // Adjust threshold as needed
-                    if (gpsLocation.accuracy > accuracyThreshold) {
-                        console.warn('Ignoring location update due to poor accuracy:', gpsLocation.accuracy);
-                        return;
-                    }
-    
-                    console.log('Valid GPS Location:', gpsLocation); // Log valid location
+                    console.log('Valid GPS Location:', gpsLocation);
                     updateGPSLocation(gpsLocation);
+                    setLocationAccuracy(gpsLocation.accuracy);
                 },
                 (error) => {
                     console.warn('GPS error:', error);
                     setLocationSource('GPS not available');
                 },
                 {
-                    enableHighAccuracy: true, 
-                    timeout: 5000,           
-                    maximumAge: 0            
+                    enableHighAccuracy: true,
+                    timeout: 20000,
+                    maximumAge: 5000
                 }
             );
     
             return () => navigator.geolocation.clearWatch(watchId);
         }
     }, [updateGPSLocation]);
+
+
+
+    const StatusIndicator = () => (
+        <div className="position-absolute top-0 end-0 m-3 p-3 bg-white rounded shadow">
+            <div className="d-flex flex-column gap-2">
+                {/* Connection Status */}
+                <div className="d-flex align-items-center">
+                    <div className={`status-dot ${connectionStatus.toLowerCase().replace(' ', '-')}`} />
+                    <span className="ms-2">{connectionStatus}</span>
+                </div>
+                
+                {/* Tracking Status */}
+                {isBeingTracked && (
+                    <div className="alert alert-warning py-1 px-2 mb-0">
+                        <small>
+                            <i className="fas fa-broadcast-tower me-1"></i>
+                            Your location is being tracked
+                        </small>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
     
     
 
     return (
         <div className="position-relative">
             <div ref={mapRef} style={{ height: '500px' }} />
+            <StatusIndicator />
             
             {/* Location Info Panel */}
             <div className="position-absolute top-0 start-0 m-3 p-3 bg-white rounded shadow">
                 <h6 className="mb-2">Location Sources:</h6>
                 <div className="d-flex flex-column gap-2">
-                    <div className="d-flex align-items-center">
-                        <div style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: '#3B82F6' }} className="me-2" />
-                        <span>IP Location (±5km)</span>
-                    </div>
                     <div className="d-flex align-items-center">
                         <div style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: '#10B981' }} className="me-2" />
                         <span>GPS Location (±{Math.round(locationAccuracy || 0)}m)</span>
@@ -388,13 +449,13 @@ const Map = () => {
 
             {/* SOS Button */}
             <div className="sos-container">
-            <button
-                className="btn btn-danger btn-lg"
-                onClick={() => setShowSosModal(true)}
-                style={{ width: '200px', height: '60px', fontSize: '1.5rem' }}
-            >
-                SOS
-            </button>
+                <button
+                    className="btn btn-danger btn-lg"
+                    onClick={() => setShowSosModal(true)}
+                    style={{ width: '200px', height: '60px', fontSize: '1.5rem' }}
+                >
+                    SOS
+                </button>
             </div>
 
             {/* SOS Modal */}
