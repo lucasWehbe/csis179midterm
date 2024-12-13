@@ -212,7 +212,6 @@ const AdminPanel = () => {
       }
     } catch (error) {
       console.error(`Error ${isCurrentlyTracked ? 'stopping' : 'starting'} tracking:`, error);
-      // Optionally display an error message to the user
     }
   };
   

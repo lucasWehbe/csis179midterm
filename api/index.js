@@ -7,7 +7,7 @@ const http = require('http');
 const { Server } = require("socket.io");
 
 
-// Import your geolocation-specific routes
+// Import geolocation-specific routes
 const userRoutes = require("./Routes/UserRoutes");
 const geofenceRoutes = require("./Routes/GeofencesRoutes");
 const locationHistoryRoutes = require("./Routes/LocationHistoryRoutes");
